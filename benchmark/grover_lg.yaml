@@ -1,0 +1,14 @@
+suite: benchmark.suites.grover
+pass managers:
+  - qiskit.transpiler.preset_passmanagers:level_3_pass_manager
+  - passmanager:level_3_with_contant_pure
+times: 1
+fields:
+  - n_qubits
+  - depth
+  - level3_gate_count
+  - we_gate_count
+  - level3_cxs
+  - we_cxs
+  - level3_depth
+  - we_depth

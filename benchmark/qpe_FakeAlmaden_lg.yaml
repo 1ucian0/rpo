@@ -1,0 +1,15 @@
+suite: benchmark.suites.qpe
+backend: qiskit.test.mock:FakeAlmaden
+times: 1
+pass managers:
+  - qiskit.transpiler.preset_passmanagers:level_3_pass_manager
+  - passmanager:level_3_with_contant_pure
+fields:
+  - n_qubits
+  - depth
+  - level3_gate_count
+  - we_gate_count
+  - level3_cxs
+  - we_cxs
+  - level3_depth
+  - we_depth

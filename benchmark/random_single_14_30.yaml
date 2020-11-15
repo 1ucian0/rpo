@@ -1,0 +1,21 @@
+# This benchmark is just for testing. It is a very simple suite (just a circuit, 14 qubits 30 deep)
+suite: benchmark.suites.random_single_14_30
+backend: qiskit.test.mock:FakeMelbourne
+pass managers:
+  - qiskit.transpiler.preset_passmanagers:level_3_pass_manager
+  - passmanager:level_3_with_contant_pure
+  - qiskit.transpiler.preset_passmanagers:level_2_pass_manager
+times: 25
+fields:
+  - n_qubits
+  - depth
+  - level3_cxs
+  - we_cxs
+  - level2_cxs
+  - level3_time
+  - we_time
+  - level2_time
+  - our_passes_time
+  - l3_swapper_time
+  - we_swapper_time
+  - l2_swapper_time

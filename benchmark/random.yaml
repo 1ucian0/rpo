@@ -1,0 +1,29 @@
+# real	534m32.417s
+# user	320m32.063s
+# sys	80m53.117s
+suite: benchmark.suites.random
+backend: qiskit.test.mock:FakeMelbourne
+pass managers:
+  - qiskit.transpiler.preset_passmanagers:level_3_pass_manager
+  - passmanager:level_3_with_contant_pure
+  - qiskit.transpiler.preset_passmanagers:level_2_pass_manager
+times: 25
+fields:
+  - n_qubits
+  - depth
+  - level3_cxs
+  - we_cxs
+  - level2_cxs
+  - level3_time
+  - we_time
+  - level2_time
+  - our_passes_time
+  - l3_swapper_time
+  - we_swapper_time
+  - l2_swapper_time
+  - level3_gate_count
+  - we_gate_count
+  - level2_gate_count
+  - level3_depth
+  - we_depth
+  - level2_depth
