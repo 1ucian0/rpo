@@ -16,11 +16,11 @@ python -m unittest discover -v tests
 ## Run benchmarks
 
 ```
-./run_benchmark.py benchmark/random.yaml
+python run_benchmark.py benchmark/random.yaml
 ```
 
 The result will be dump in `results/random.csv` in this case. In general, in 
-`./run_benchmark.py benchmark/<something>.yaml` dumps in`results/<something>.csv`.
+`python run_benchmark.py benchmark/<something>.yaml` dumps in`results/<something>.csv`.
 
 ## Run experiments on real device
 
