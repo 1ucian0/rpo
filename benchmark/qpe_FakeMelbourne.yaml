@@ -7,16 +7,21 @@ times: 25
 pass managers:
   - qiskit.transpiler.preset_passmanagers:level_3_pass_manager
   - passmanager:level_3_with_contant_pure
+  - passmanager:level_3_hoare_pass_manager
 fields:
   - n_qubits
   - depth
   - level3_cxs
+  - hoare_cxs
   - we_cxs
   - level3_depth
+  - hoare_depth
   - we_depth
-  - level3_gate_count
-  - we_gate_count
+  - level3_single_gate
+  - hoare_single_gate
+  - we_single_gate
   - level3_time
+  - hoare_time
   - we_time
   - our_passes_time
   - l3_swapper_time

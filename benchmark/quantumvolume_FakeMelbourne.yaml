@@ -1,4 +1,4 @@
-suite: benchmark.suites.hidden_shift
+suite: benchmark.suites.quantumvolume
 backend: qiskit.test.mock:FakeMelbourne
 times: 25
 pass managers:

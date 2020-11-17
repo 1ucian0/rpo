@@ -1,6 +1,6 @@
-suite: benchmark.suites.hidden_shift
-backend: qiskit.test.mock:FakeMelbourne
-times: 25
+suite: benchmark.suites.grover_scale
+backend: qiskit.test.mock:FakeAlmaden
+times: 5
 pass managers:
   - qiskit.transpiler.preset_passmanagers:level_3_pass_manager
   - passmanager:level_3_with_contant_pure
