@@ -16,7 +16,7 @@ from qiskit import QuantumRegister, QuantumCircuit, ClassicalRegister
 import numpy as np
 import math
 
-def bernstein_vazirani(nbits = 4, expected_output = 2**4 - 1, measure=True):
+def bernstein_vazirani(nbits = 4, expected_output = None, measure=True):
     """
         This is a n bit bernstein vazirani algorithm with one ancilla qubit
         The hidden oracle value is initialized to 11, which represents the binary string '1011'
@@ -30,6 +30,8 @@ def bernstein_vazirani(nbits = 4, expected_output = 2**4 - 1, measure=True):
         circuit.h(qr[i])
     circuit.x(qr[nbits])
     circuit.h(qr[nbits])
+    if expected_output is None:
+        expected_output = 2 ** nbits - 1
     # Apply the inner-product oracle
     for j in range(nbits):
         if (expected_output & (1 << j)):
@@ -39,3 +41,7 @@ def bernstein_vazirani(nbits = 4, expected_output = 2**4 - 1, measure=True):
     if measure is True:
         circuit.measure_all()
     return circuit
+
+def circuits():
+    for iteration in range(2, 16, 2):
+        yield bernstein_vazirani(iteration)

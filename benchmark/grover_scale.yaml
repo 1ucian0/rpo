@@ -20,6 +20,3 @@ fields:
   - level3_time
   - hoare_time
   - we_time
-  - our_passes_time
-  - l3_swapper_time
-  - we_swapper_time

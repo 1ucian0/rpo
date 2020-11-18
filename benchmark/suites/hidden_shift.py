@@ -25,7 +25,7 @@ def hidden_shift(nbits=6, expected_output=None, measure=True):
 
     qr = QuantumRegister(nbits, 'qr')
 
-    circuit = QuantumCircuit(qr, cr)
+    circuit = QuantumCircuit(qr)
     for i in range(0, nbits):
         circuit.h(qr[i])
     for i in range(0, nbits):

@@ -46,7 +46,11 @@ class Result:
                 repetition[passname] = 0
 
         pm = passmanager(Result.pm_config(seed, self.backend))
-        transpiled = pm.run(self.input_circuit, callback=collect_time)
+        transpiled = None
+        try:
+            transpiled = pm.run(self.input_circuit, callback=collect_time)
+        # except:
+        #     print("Seed No.",seed, "experiment has error")
 
         return transpiled, times, repetition
 
@@ -55,17 +59,18 @@ class Result:
             result = {'transpiled': [], 'times': {}, 'repetitions': {}}
             for seed in range(times):
                 transpiled, calls, repetitions = self.run_pm_with_time(pm, seed)
-                result['transpiled'].append(transpiled)
-                for passname, time in calls.items():
-                    if passname in result['times']:
-                        result['times'][passname].append(time)
-                    else:
-                        result['times'][passname] = [time]
-                for passname, rep in repetitions.items():
-                    if passname in result['repetitions']:
-                        result['repetitions'][passname].append(rep)
-                    else:
-                        result['repetitions'][passname] = [rep]
+                if transpiled is not None:
+                    result['transpiled'].append(transpiled)
+                    for passname, time in calls.items():
+                        if passname in result['times']:
+                            result['times'][passname].append(time)
+                        else:
+                            result['times'][passname] = [time]
+                    for passname, rep in repetitions.items():
+                        if passname in result['repetitions']:
+                            result['repetitions'][passname].append(rep)
+                        else:
+                            result['repetitions'][passname] = [rep]
 
             self.pms_results[pm.__name__] = result
 
@@ -80,11 +85,16 @@ class Result:
     def we_loop_iterations(self):
         return self.pms_results['level_3_with_contant_pure']['repetitions']['ConsolidateBlocks']
 
+
     @property
     def level3_cxs(self):
         cx_results = []
         for cx_result in self.pms_results['level_3_pass_manager']['transpiled']:
-            cx_results.append(cx_result.count_ops()['cx'])
+            try:
+                cx_count = cx_result.count_ops()['cx']
+            except:
+                cx_count = 0
+            cx_results.append(cx_count)
         return cx_results
 
     @property
@@ -98,7 +108,22 @@ class Result:
     def we_cxs(self):
         cx_results = []
         for cx_result in self.pms_results['level_3_with_contant_pure']['transpiled']:
-            cx_results.append(cx_result.count_ops()['cx'])
+            try:
+                cx_count = cx_result.count_ops()['cx']
+            except:
+                cx_count = 0
+            cx_results.append(cx_count)
+        return cx_results[0] if len(cx_results) == 1 else cx_results
+
+    @property
+    def hoare_cxs(self):
+        cx_results = []
+        for cx_result in self.pms_results['level_3_hoare_pass_manager']['transpiled']:
+            try:
+                count = cx_result.count_ops()['cx']
+            except:
+                count = 0
+            cx_results.append(count)
         return cx_results[0] if len(cx_results) == 1 else cx_results
     
     @property
@@ -123,24 +148,94 @@ class Result:
         return depth_results[0] if len(depth_results) == 1 else depth_results
 
     @property
-    def level3_gate_count(self):
+    def hoare_depth(self):
+        depth_results = []
+        for sample in self.pms_results['level_3_hoare_pass_manager']['transpiled']:
+            try:
+                count = sample.depth()
+            except:
+                count = 0
+            depth_results.append(count)
+        return depth_results[0] if len(depth_results) == 1 else depth_results
+
+    @property
+    def level3_single_gate(self):
         size_results = []
         for sample in self.pms_results['level_3_pass_manager']['transpiled']:
-            size_results.append(sample.size())
+            try:
+                u1_count = sample.count_ops()['u1']
+            except:
+                u1_count = 0
+            try:
+                u2_count = sample.count_ops()['u2']
+            except:
+                u2_count = 0
+            try:
+                u3_count = sample.count_ops()['u3']
+            except:
+                u3_count = 0
+            count = u1_count + u2_count + u3_count
+            size_results.append(count)
         return size_results[0] if len(size_results) == 1 else size_results
 
     @property
-    def level2_gate_count(self):
+    def level2_single_gate(self):
         size_results = []
         for sample in self.pms_results['level_2_pass_manager']['transpiled']:
-            size_results.append(sample.size())
+            try:
+                u1_count = sample.count_ops()['u1']
+            except:
+                u1_count = 0
+            try:
+                u2_count = sample.count_ops()['u2']
+            except:
+                u2_count = 0
+            try:
+                u3_count = sample.count_ops()['u3']
+            except:
+                u3_count = 0
+            count = u1_count + u2_count + u3_count
+            size_results.append(count)
         return size_results
 
     @property
-    def we_gate_count(self):
+    def we_single_gate(self):
         size_results = []
         for sample in self.pms_results['level_3_with_contant_pure']['transpiled']:
-            size_results.append(sample.size())
+            try:
+                u1_count = sample.count_ops()['u1']
+            except:
+                u1_count = 0
+            try:
+                u2_count = sample.count_ops()['u2']
+            except:
+                u2_count = 0
+            try:
+                u3_count = sample.count_ops()['u3']
+            except:
+                u3_count = 0
+            count = u1_count + u2_count + u3_count
+            size_results.append(count)
+        return size_results[0] if len(size_results) == 1 else size_results
+
+    @property
+    def hoare_single_gate(self):
+        size_results = []
+        for sample in self.pms_results['level_3_hoare_pass_manager']['transpiled']:
+            try:
+                u1_count = sample.count_ops()['u1']
+            except:
+                u1_count = 0
+            try:
+                u2_count = sample.count_ops()['u2']
+            except:
+                u2_count = 0
+            try:
+                u3_count = sample.count_ops()['u3']
+            except:
+                u3_count = 0
+            count = u1_count + u2_count + u3_count
+            size_results.append(count)
         return size_results[0] if len(size_results) == 1 else size_results
 
     @property
@@ -154,6 +249,10 @@ class Result:
     @property
     def we_time(self):
         return self.pms_results['level_3_with_contant_pure']['times'].get('total', None)
+
+    @property
+    def hoare_time(self):
+        return self.pms_results['level_3_hoare_pass_manager']['times'].get('total', None)
 
     @property
     def l3_swapper_time(self):

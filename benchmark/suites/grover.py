@@ -12,6 +12,7 @@
 
 
 from qiskit import QuantumRegister, QuantumCircuit, ClassicalRegister
+import numpy as np
 
 import math
 
@@ -55,14 +56,14 @@ def grover(nbits=6, expected_output=None, measure=True):
     qr = QuantumRegister(nbits, 'qr')
     circuit = QuantumCircuit(qr)
     grover_oracle(circuit, qr, nbits, expected_output)
-    iteration = int(round(math.sqrt(2 ** nbits)))
-    for i in range(0, iteration):
-        grover_diffusion_operator(circuit, qr, nbits)
+    #iteration = int(round(np.pi/4 * math.sqrt(2 ** nbits)))
+    #for i in range(0, iteration):
+    grover_diffusion_operator(circuit, qr, nbits)
     if measure is True:
         circuit.measure_all()
     return circuit
 
 
 def circuits():
-    for n_qubits in range(2, 9):
+    for n_qubits in range(4, 16, 2):
         yield grover(n_qubits)
