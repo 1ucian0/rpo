@@ -1,10 +1,25 @@
-# purestate
+# Relaxed Peephole Optimization
+This repository contains artifacts and test files to reproduce experiments from the CGO 2021 paper "Relaxed Peephole Optimization: A Novel Compiler Optimization for Quantum Circuits" by Ji Liu, Luciano Bello, and Huiyang Zhou
 
 
-- `|0>` and `|1>` are *constants*
-- Single qubit gates conserve *pure state*
-- *constants* are particular case of *pure states*
- 
+Use at your own risk! In no event shall the authors be liable for any damages whatsoever (including without limitation damages for loss of business profits, business interruption, loss of business information, or any other pecuniary loss) arising from the use of or inability to use the software, even if the authors have been advised of the possibility of such damages.
+
+If you have any questions feel free to contact us using jliu45@ncsu.edu
+
+System pre-requisities for Qiskit
+========================
+* Ubuntu 16.04 or later
+* macOS 10.12.6 or later
+* Windows 7 or later
+
+Software pre-requisites
+=======================
+
+* Python 3.5+
+* Qiskit version 0.18
+* Jupyter notebook
+* matplotlib 3.3
+* z3-solver
 
 ## Installation and test
 
@@ -23,6 +38,8 @@ The result will be dump in `results/random.csv` in this case. In general, in
 `python run_benchmark.py benchmark/<something>.yaml` dumps in`results/<something>.csv`.
 
 ## Run experiments on real device
+
+Run the corresponding jupyter notebooks: QPE_almaden/melbourne/rochester.
 
 ## Benchmark options
 
