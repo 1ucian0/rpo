@@ -1,6 +1,6 @@
 suite: benchmark.suites.grover
 backend: qiskit.test.mock:FakeMelbourne
-times: 25
+times: 5
 pass managers:
   - qiskit.transpiler.preset_passmanagers:level_3_pass_manager
   - passmanager:level_3_with_contant_pure

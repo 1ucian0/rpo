@@ -24,7 +24,8 @@ def QPE(nbits=5, expected_output=None, measure=True):
         expected_output = 2 ** nbits - 1
 
     qr = QuantumRegister(nbits + 1, 'qr')
-    circuit = QuantumCircuit(qr)
+    cr = ClassicalRegister(nbits, 'cr')
+    circuit = QuantumCircuit(qr, cr)
 
     circuit.x(qr[nbits])
     # n-qubit input state for QPE that produces classical output.
@@ -38,7 +39,7 @@ def QPE(nbits=5, expected_output=None, measure=True):
         circuit.h(qr[j])
 
     if measure is True:
-        circuit.measure_all()
+        circuit.measure(qr[0:nbits], cr[0:nbits])
     return circuit
 
 

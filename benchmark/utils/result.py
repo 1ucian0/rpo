@@ -49,8 +49,9 @@ class Result:
         transpiled = None
         try:
             transpiled = pm.run(self.input_circuit, callback=collect_time)
-        # except:
-        #     print("Seed No.",seed, "experiment has error")
+        except:
+            pass
+            #print("Seed No.",seed)
 
         return transpiled, times, repetition
 
