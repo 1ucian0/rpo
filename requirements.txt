@@ -4,3 +4,4 @@ ddt>=1.2.0,!=1.4.0
 z3-solver
 matplotlib>=2.1
 jupyter
+tabulate
