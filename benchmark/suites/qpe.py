@@ -44,5 +44,5 @@ def QPE(nbits=5, expected_output=None, measure=True):
 
 
 def circuits():
-    for n_qubits in range(4, 16, 2):
+    for n_qubits in range(3, 15, 2):
         yield QPE(n_qubits)

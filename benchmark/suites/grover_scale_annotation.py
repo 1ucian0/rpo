@@ -29,7 +29,7 @@ def grover_annotation(nbits=15, iteration=None, measure=True):
 
     if iteration is None:
         iteration = int(round(np.pi / 4 * math.sqrt(2 ** nbits)))
-    for i in range(0, iteration):
+    for j in range(0, iteration):
         # oracle
         for i in range(0, 8):
             circuit.h(i)

@@ -21,7 +21,7 @@ parser.add_argument('csvfile', metavar='file.csv', nargs=1, help='CSV file with 
 args = parser.parse_args()
 csvfile = args.csvfile[0]
 
-fields = ['level3_cxs', 'we_cxs', 'level3_time', 'we_time']
+fields = ['level3_cxs', 'hoare_cxs', 'we_cxs', 'level3_depth', 'hoare_depth', 'we_depth', 'level3_single_gate', 'hoare_single_gate', 'we_single_gate', 'level3_time','hoare_time', 'we_time']
 
 
 def median(data_string):
@@ -45,25 +45,37 @@ with open(csvfile, newline='') as csvfile:
     result = []
     for no, row in enumerate(data):
         if not no:
-            header = ['n_qubits', 'level3_loop_iterations', 'we_loop_iterations',
-                      'level3_cxs', 'we_cxs', 'level3_time', 'we_time',
+            header = ['n_qubits',# 'level3_loop_iterations', 'we_loop_iterations',
+                      'level3_cxs', 'hoare_cxs','we_cxs',
+                      'level3_depth', 'hoare_depth', 'we_depth',
+                      'level3_gate', 'hoare_gate', 'we_gate',
+                      'level3_time','hoare_time', 'we_time',
                       'level3 time (stdev)', 'we time (stdev)',
                       'level3 time (min-max)', 'we time (min-max)']
         if not len(row):
             continue
-        we_iterations = median(row['we_loop_iterations'])
-        level3_iterations = median(row['level3_loop_iterations'])
-        we_cxs = median(row['we_cxs'])
+        # we_iterations = median(row['we_loop_iterations'])
+        # level3_iterations = median(row['level3_loop_iterations'])
         level3_cxs = median(row['level3_cxs'])
+        hoare_cxs = median(row['hoare_cxs'])
         we_cxs = median(row['we_cxs'])
         level3_time = median(row['level3_time'])
+        hoare_time = median(row['hoare_time'])
         we_time = median(row['we_time'])
+        level3_depth = median(row['level3_depth'])
+        hoare_depth = median(row['hoare_depth'])
+        we_depth = median(row['we_depth'])
+        level3_gate = median(row['level3_single_gate'])
+        hoare_gate = median(row['hoare_single_gate'])
+        we_gate = median(row['we_single_gate'])
         level3_time_sd = stdev(row['level3_time'])
         we_time_sd = stdev(row['we_time'])
         level3_time_mm = "%.5f - %.5f" % (minimun(row['level3_time']), maximun(row['level3_time']))
         we_time_mm = "%.5f - %.5f" % (minimun(row['we_time']), maximun(row['we_time']))
 
-        result.append([row['n_qubits'], level3_iterations, we_iterations, level3_cxs, we_cxs,
-                       level3_time, we_time, level3_time_sd,
+        result.append([row['n_qubits'], level3_cxs, hoare_cxs, we_cxs,
+                       level3_depth, hoare_depth, we_depth,
+                       level3_gate, hoare_gate, we_gate,
+                       level3_time, hoare_time, we_time, level3_time_sd,
                        we_time_sd, level3_time_mm, we_time_mm])
     print(tabulate(result, headers=header))

@@ -29,7 +29,7 @@ def grover_scale(nbits=15, iteration=None, measure=True):
 
     if iteration is None:
         iteration = int(round(np.pi / 4 * math.sqrt(2 ** nbits)))
-    for i in range(0, iteration):
+    for j in range(0, iteration):
         # Oracle
         for i in range(0, 8):
             circuit.h(i)
@@ -52,4 +52,4 @@ def grover_scale(nbits=15, iteration=None, measure=True):
 
 def circuits():
     for iteration in range(2, 16, 2):
-        yield grover(15, iteration)
+        yield grover_scale(15, iteration)
