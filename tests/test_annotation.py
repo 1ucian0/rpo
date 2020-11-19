@@ -109,6 +109,32 @@ class TestAnnotation(PureStateTestCase):
         passmanager.append(PureStateOnU())
         result = passmanager.run(circuit)
 
+        self.assertEqual(expected, result)
+
+    def test_annotation_after_entangle(self):
+        """SWAP gate after different annotation should be optimized
+         |phi> --annotation------x-             |phi> --
+                                |       =>
+         |phi>---annotation----x-            |phi> --
+         """
+        qr = QuantumRegister(2, 'qr')
+        circuit = QuantumCircuit(qr)
+        circuit.h(qr[0])
+        circuit.cx(qr[0], qr[1])
+        circuit.append(StateAnnotation(0.1, 0.2, 0.3), [qr[0]])
+        circuit.append(StateAnnotation(0.4, 0.5, 0.6), [qr[1]])
+        circuit.swap(qr[0], qr[1])
+
+        expected = QuantumCircuit(qr)
+        expected.h(qr[0])
+        expected.cx(qr[0], qr[1])
+        expected.u3(0.4, 0.5, 0.6, qr[0])
+        expected.u3(0.1, 0.2, 0.3, qr[1])
+
+        passmanager = PassManager()
+        passmanager.append(PureStateOnU())
+        result = passmanager.run(circuit)
+
         print(expected)
         print(result)
         self.assertEqual(expected, result)

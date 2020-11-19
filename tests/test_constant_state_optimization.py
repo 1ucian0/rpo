@@ -337,32 +337,6 @@ class TestMultiControlOnConst(QiskitTestCase):
 
 
 class TestToffoli(QiskitTestCase):
-    def test_closed_closed_psi_one(self):
-        """Closed-Closed Control on psi-one Toffoli
-         |psi> -- . --       ---.--- None
-                  |             |
-           |1> -- . --   =>  ---|--- |1>
-                  |             |
-           |0> ---X---       ---X--- None
-         """
-        qr = QuantumRegister(3, 'qr')
-        circuit = QuantumCircuit(qr)
-        circuit.u3(3.141, 1.571, 1.047, qr[0])
-        circuit.x(qr[1])
-        circuit.ccx(qr[0], qr[1], qr[2])
-
-        expected = QuantumCircuit(qr)
-        expected.u3(3.141, 1.571, 1.047, qr[0])
-        expected.x(qr[1])
-        expected.cx(qr[0], qr[2])
-
-        passmanager = PassManager()
-        pass_ = ConstantsStateOptimization()
-        passmanager.append(pass_)
-        result = passmanager.run(circuit)
-
-        self.assertEqual(pass_.wire_state._dict, {qr[0]: None, qr[1]: '1', qr[2]: None})
-        self.assertEqual(expected, result)
 
     def test_closed_open_psi_one(self):
         """Closed-Open Controlled H on psi-one
@@ -477,33 +451,7 @@ class TestToffoli(QiskitTestCase):
         self.assertEqual(pass_.wire_state._dict, {qr[0]: None, qr[1]: None, qr[2]: '-'})
         self.assertEqual(expected, result)
 
-    def test_closed_closed_psi_one_idle(self):
-        """Closed-Closed Control on psi-one Toffoli (idle wire)
-         |psi> -- . --       ---.--- None
-                  |             |
-           |1> -- . --   =>  ---|--- |1>
-                  |             |
-           |0> ---X---       ---X--- None
-          idle -------       -------
-         """
-        qr = QuantumRegister(4, 'qr')
-        circuit = QuantumCircuit(qr)
-        circuit.u3(3.141, 1.571, 1.047, qr[0])
-        circuit.x(qr[1])
-        circuit.ccx(qr[0], qr[1], qr[2])
 
-        expected = QuantumCircuit(qr)
-        expected.u3(3.141, 1.571, 1.047, qr[0])
-        expected.x(qr[1])
-        expected.cx(qr[0], qr[2])
-
-        passmanager = PassManager()
-        pass_ = ConstantsStateOptimization()
-        passmanager.append(pass_)
-        result = passmanager.run(circuit)
-
-        self.assertEqual(pass_.wire_state._dict, {qr[0]: None, qr[1]: '1', qr[2]: None, qr[3]: '0'})
-        self.assertEqual(expected, result)
 
 
 class TestSwap(QiskitTestCase):
@@ -1769,32 +1717,6 @@ class TestMultiRegisters(QiskitTestCase):
         self.assertEqualWithIdle(pass_.wire_state._dict, {qr1[1]: '-', qr2[0]: '+'})
         self.assertEqual(expected, result)
 
-    def test_custom(self):
-        """Two control on |0> of a custom gate
-         qr1_0: |0> --.---         ------
-                      |
-         qr2:   -3/--ghz--         ------
-                      |      =>
-         qr1_1: |0> --.---         ------
-         """
-        qr1 = QuantumRegister(2, 'qr1')
-        qr2 = QuantumRegister(3, 'qr2')
-        ghz_circuit = QuantumCircuit(3, name='ghz')
-        ghz_circuit.h(0)
-        ghz_circuit.cx(0, 1)
-        ghz_circuit.cx(1, 2)
-        ghz = ghz_circuit.to_gate()
-        cghz = ghz.control(2)
-        circuit = QuantumCircuit(qr1, qr2)
-        circuit.append(cghz, [qr1[0], qr1[1], qr2[0], qr2[2], qr2[1]])
-
-        expected = QuantumCircuit(qr1, qr2)
-
-        passmanager = PassManager()
-        passmanager.append(ConstantsStateOptimization())
-        result = passmanager.run(circuit)
-
-        self.assertEqual(expected, result)
 
 
 class TestCSwap(QiskitTestCase):

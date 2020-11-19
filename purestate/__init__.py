@@ -15,5 +15,4 @@
 from purestate.constant_state_optimization import ConstantsStateOptimization
 from purestate.aswap_gate import ASwapGate
 from purestate.state_annotation import StateAnnotation
-from purestate.pure_state_optimization import PureStateOptimization
 from purestate.pure_state_on_U import PureStateOnU
