@@ -20,6 +20,7 @@ Software pre-requisites
 * Jupyter notebook
 * matplotlib 3.3
 * z3-solver
+* tabulate
 
 ## Installation and test
 
