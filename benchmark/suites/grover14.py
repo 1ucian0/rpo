@@ -65,5 +65,4 @@ def grover(nbits=6, expected_output=None, measure=True):
 
 
 def circuits():
-    for n_qubits in range(4, 14, 2):
-        yield grover(n_qubits)
+        yield grover(14)
